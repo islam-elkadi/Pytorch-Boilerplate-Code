@@ -102,12 +102,13 @@ class Test(LogisticRegressionModel):
 
 if __name__ == "__main__":
 
-    n_iters = 5000
-    batch_size = 100
+    n_iters = 10000
+    batch_size = 200
     learning_rate = 0.001
     train_logistic_regress = Train(input_size = 28*28, num_classes = 10)
     train_dataset = dsets.MNIST(root = "./data", train = True, transform = transforms.ToTensor(), download = True)
     epochs = int(n_iters/(len(train_dataset)/batch_size))
+    
     train_logistic_regress.trainModel(train_dataset, learning_rate, n_iters, batch_size, False, "models", "LR_1")
     test_logistic_regress = Test(input_size = 28*28, num_classes = 10, directory = "./models", name = "LR_1.pkl")
     test_dataset = dsets.MNIST(root = './data', train = False, transform = transforms.ToTensor())

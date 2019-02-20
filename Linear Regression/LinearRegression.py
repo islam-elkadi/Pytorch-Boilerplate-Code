@@ -30,11 +30,16 @@ class Train(LinearRegressionModel):
 
 		if GPU != False:
 			device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-			cuda_device = self.model.to(device)
+			device = self.model.to(device)
 
 		for epoch in range(epochs):
-			inputs = torch.from_numpy(train_data).requires_grad_()
-			labels = torch.from_numpy(train_labels)
+			if GPU != False:
+				inputs = torch.from_numpy(x_train).to(device)
+				labels = torch.from_numpy(y_train).to(device)
+			else:
+				inputs = torch.from_numpy(x_train).requires_grad_()
+				labels = torch.from_numpy(y_train)
+
 			optimize.zero_grad() 
 			outputs = self.model(inputs)
 			loss = self.criterion(outputs, labels)
